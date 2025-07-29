@@ -21,3 +21,8 @@ variable "private_subnet_cidrs" {
     error_message = "Number of private subnets must match availability zones."
   }
 }
+
+variable "cluster_name" {
+  description = "Cluster name for tagging subnets"
+  type        = string
+}

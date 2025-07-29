@@ -16,18 +16,6 @@ variable "allocated_storage" {
   default     = 20
 }
 
-variable "subnet_ids" {
-  description = "List of subnet IDs for RDS subnet group"
-  type        = list(string)
-  default     = ["subnet-abc", "subnet-def"]  # Replace with real ones or wire in from state
-}
-
-variable "vpc_id" {
-  description = "VPC ID where RDS should be created"
-  type        = string
-  default     = "vpc-xyz"  # Replace with real one or wire in from state
-}
-
 variable "project_name" {
   type    = string
   default = "baas"
