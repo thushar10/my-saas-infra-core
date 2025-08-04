@@ -23,3 +23,18 @@ module "eks" {
   min_size           = var.min_size
   max_size           = var.max_size
 }
+
+# In destroyable-stack/main.tf, after the "eks" module block
+
+resource "aws_eks_access_entry" "infra_admin" {
+  cluster_name = module.eks.cluster_name
+  principal_arn = "arn:aws:iam::645860290220:user/infra-admin" # Your IAM user ARN
+
+  access_policies = {
+    "AmazonEKSClusterAdminPolicy" = {
+      access_scope = {
+        type = "cluster"
+      }
+    }
+  }
+}

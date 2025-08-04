@@ -68,3 +68,22 @@ resource "aws_eks_node_group" "default" {
 
   instance_types = [var.instance_type]
 }
+
+
+# The OIDC provider URL is an output of the cluster resource
+data "tls_certificate" "eks" {
+  url = aws_eks_cluster.this.identity[0].oidc[0].issuer
+}
+
+# This resource creates the OIDC provider association, replacing the eksctl command
+resource "aws_iam_oidc_provider" "eks" {
+  client_id_list  = ["sts.amazonaws.com"]
+  thumbprint_list = [data.tls_certificate.eks.certificates[0].sha1_fingerprint]
+  url             = aws_eks_cluster.this.identity[0].oidc[0].issuer
+
+  tags = {
+    Name = "${var.cluster_name}-oidc-provider"
+  }
+}
+
+
